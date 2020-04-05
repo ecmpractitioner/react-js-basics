@@ -4,7 +4,7 @@ const dynamicPerson = props => {
 
     console.log("Dynamic Person");
    return (
-    <div>
+    <div onClick={props.props.click}>
       <p>Name : {props.props.name}</p>
       <p>Your age: {props.props.age}</p>
       Hobbie: {props.children}
