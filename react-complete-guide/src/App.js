@@ -1,27 +1,27 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import UserInput from "./Components/UserInput/UserInput";
 import UserOutput from "./Components/UserOutput/UserOutput";
 import "./App.css";
 
+const app = props => {
+  const [currentState, updateUserNameState]=useState({ userName: "Manju" });
 
-class App extends Component {
-  state = {
-    userName: "Manju"
+
+  const inputChanged = event => {
+    updateUserNameState({ userName: event.target.value });
   };
 
-  inputChanged=(event)=>{
-    this.setState({ userName:event.target.value});
-  };
-  render() {
-    return (
-      <div>
-        <h1>First Assignment</h1>
-        <UserInput  changed={this.inputChanged} currentName={this.state.userName}></UserInput>
-        <UserOutput userName={this.state.userName}></UserOutput>
-        <UserOutput userName={this.state.userName}></UserOutput>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <h1>First Assignment</h1>
+      <UserInput
+        changed={inputChanged}
+        currentName={currentState.userName}
+      ></UserInput>
+      <UserOutput userName={currentState.userName}></UserOutput>
+      <UserOutput userName={currentState.userName}></UserOutput>
+    </div>
+  );
+};
 
-export default App;
+export default app;
