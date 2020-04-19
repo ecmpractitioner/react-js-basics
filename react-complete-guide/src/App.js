@@ -4,22 +4,37 @@ import UserOutput from "./Components/UserOutput/UserOutput";
 import "./App.css";
 
 const app = props => {
-  const [currentState, updateUserNameState]=useState({ userName: "Manju" });
+  const [currentState, updateState] = useState({
+    userName: "Manju",
+    showContent: false
+  });
 
+  const changeNameHandler = event => {
+    updateState({
+      ...currentState,
+      userName: event.target.value,
+      showContent: false
+    });
+  };
 
-  const inputChanged = event => {
-    updateUserNameState({ userName: event.target.value });
+  const toggleContent = event => {
+    
+    updateState({
+      ...currentState,
+      showContent: !currentState.showContent
+    });
   };
 
   return (
     <div>
-      <h1>First Assignment</h1>
-      <UserInput
-        changed={inputChanged}
-        currentName={currentState.userName}
-      ></UserInput>
-      <UserOutput userName={currentState.userName}></UserOutput>
-      <UserOutput userName={currentState.userName}></UserOutput>
+      {!currentState.showContent ? (
+        <UserOutput
+          userName={currentState.userName}
+          change={changeNameHandler}
+        ></UserOutput>
+      ) : null}
+
+      <UserInput click={toggleContent}></UserInput>
     </div>
   );
 };

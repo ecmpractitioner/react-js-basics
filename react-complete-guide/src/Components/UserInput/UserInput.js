@@ -1,10 +1,10 @@
 import React from 'react';
-import '../../css/Components/UserInput/UserInput.css';
-const userInput =(props)=>{
+
+const userInput = (props)=>{
 
     return(
-        <div className='UserInput'><input type="text" onChange={props.changed} value={props.currentName}></input></div>
-   );
-};
+        <div><button onClick={props.click}>Show Conent</button></div>
+    );
+}
 
 export default userInput;
