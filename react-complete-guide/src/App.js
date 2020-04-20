@@ -1,42 +1,51 @@
-import React, { useState } from "react";
-import UserInput from "./Components/UserInput/UserInput";
-import UserOutput from "./Components/UserOutput/UserOutput";
+import React, { useState, Component } from "react";
 import "./App.css";
+import Person from "./Components/Person/Person";
+import ButtonStyle from "./css/Common/Button.css";
 
-const app = props => {
-  const [currentState, updateState] = useState({
-    userName: "Manju",
+class App extends Component {
+  state = {
+    Persons: [
+      { name: "Manju", age: "37", hobbies: "Cricket" },
+      { name: "Praveena", age: "33", hobbies: "Cook" },
+      { name: "Manju", age: "07", hobbies: "Playing" }
+    ],
     showContent: false
-  });
-
-  const changeNameHandler = event => {
-    updateState({
-      ...currentState,
-      userName: event.target.value,
-      showContent: false
-    });
   };
 
-  const toggleContent = event => {
-    
-    updateState({
-      ...currentState,
-      showContent: !currentState.showContent
-    });
+  toggleNames = event => {
+    this.setState({ showContent: !this.state.showContent });
   };
+  render() {
+    return (
+      <div className="App">
+        <div>
+          <button className="ButtonStyle" onClick={this.toggleNames}>
+            Toggle Content
+          </button>
+        </div>
+        {this.state.showContent ? (
+          <div>
+            <Person
+              name={this.state.Persons[0].name}
+              age={this.state.Persons[0].age}
+              hobbies={this.state.Persons[0].hobbies}
+            ></Person>
+            <Person
+              name={this.state.Persons[1].name}
+              age={this.state.Persons[1].age}
+              hobbies={this.state.Persons[1].hobbies}
+            ></Person>
+            <Person
+              name={this.state.Persons[2].name}
+              age={this.state.Persons[2].age}
+              hobbies={this.state.Persons[2].hobbies}
+            ></Person>
+          </div>
+        ) : null}
+      </div>
+    );
+  }
+}
 
-  return (
-    <div>
-      {!currentState.showContent ? (
-        <UserOutput
-          userName={currentState.userName}
-          change={changeNameHandler}
-        ></UserOutput>
-      ) : null}
-
-      <UserInput click={toggleContent}></UserInput>
-    </div>
-  );
-};
-
-export default app;
+export default App;
