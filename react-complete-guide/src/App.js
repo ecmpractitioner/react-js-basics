@@ -1,4 +1,4 @@
-import React, { useState, Component } from "react";
+import React, { Component } from "react";
 import "./App.css";
 import Person from "./Components/Person/Person";
 import ButtonStyle from "./css/Common/Button.css";
@@ -10,39 +10,50 @@ class App extends Component {
       { name: "Praveena", age: "33", hobbies: "Cook" },
       { name: "Manju", age: "07", hobbies: "Playing" }
     ],
-    showContent: false
+    showContent: false,
+    buttonTitle:'Show Content'
   };
 
   toggleNames = event => {
-    this.setState({ showContent: !this.state.showContent });
+    this.setState(
+      { 
+        showContent: !this.state.showContent,
+        buttonTitle:!this.state.showContent? 'Hide Content':'Show Content'
+      }
+      );
   };
   render() {
+    let dynamicPersonsContent = null;
+    if (this.state.showContent) {
+      dynamicPersonsContent = (
+        <div>
+          <Person
+            name={this.state.Persons[0].name}
+            age={this.state.Persons[0].age}
+            hobbies={this.state.Persons[0].hobbies}
+          ></Person>
+          <Person
+            name={this.state.Persons[1].name}
+            age={this.state.Persons[1].age}
+            hobbies={this.state.Persons[1].hobbies}
+          ></Person>
+          <Person
+            name={this.state.Persons[2].name}
+            age={this.state.Persons[2].age}
+            hobbies={this.state.Persons[2].hobbies}
+          ></Person>
+        </div>
+      );
+    }
+
     return (
       <div className="App">
         <div>
           <button className="ButtonStyle" onClick={this.toggleNames}>
-            Toggle Content
+            {this.state.buttonTitle}
           </button>
+          {dynamicPersonsContent}
         </div>
-        {this.state.showContent ? (
-          <div>
-            <Person
-              name={this.state.Persons[0].name}
-              age={this.state.Persons[0].age}
-              hobbies={this.state.Persons[0].hobbies}
-            ></Person>
-            <Person
-              name={this.state.Persons[1].name}
-              age={this.state.Persons[1].age}
-              hobbies={this.state.Persons[1].hobbies}
-            ></Person>
-            <Person
-              name={this.state.Persons[2].name}
-              age={this.state.Persons[2].age}
-              hobbies={this.state.Persons[2].hobbies}
-            ></Person>
-          </div>
-        ) : null}
       </div>
     );
   }
