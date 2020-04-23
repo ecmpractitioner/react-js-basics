@@ -1,75 +1,51 @@
 import React, { Component } from "react";
 import "./App.css";
-import Person from "./Components/Person/Person";
-import ButtonStyle from "./css/Common/Button.css";
+import ValidationInput from "./Components/ValidationInput/ValidationInput.js";
+import Char from "./Components/Char/Char.js";
 
 class App extends Component {
   state = {
-    Persons: [
-      { id: "1", name: "Manju", age: "37", hobbies: "Cricket" },
-      { id: "2", name: "Praveena", age: "33", hobbies: "Cook" },
-      { id: "3", name: "Vaishnav", age: "07", hobbies: "Playing" }
-    ],
-    showContent: false,
-    buttonTitle: "Show Content"
+    inputText: ""
   };
 
-  nameChangeNameHandler = (event, index) => {
-    //this is bad way of changing or updating the state. NEVER DO THIS WAY
-    //const oldPersons = this.state.Persons;
-    const oldPersons=[...this.state.Persons];
-    oldPersons[index].name = event.target.value;
+  renderText = event => {
+    let inputText = this.state.inputText;
+    inputText = event.target.value;
 
-    this.setState({
-      Persons: oldPersons
-    });
-  };
-  toggleNames = event => {
-    this.setState({
-      showContent: !this.state.showContent,
-      buttonTitle: !this.state.showContent ? "Hide Content" : "Show Content"
-    });
+    this.setState({ inputText: (inputText = event.target.value) });
   };
 
-  deletePersonComponent=(index)=>{
-   
-    const deletePerson = [... this.state.Persons];
-    deletePerson.splice(index,1);
-    this.setState({Persons:deletePerson});
-  }
+  removeChar = (event,index)=>{
+    const charToRemove =this.state.inputText.split('');
+    charToRemove.splice(index,1);
+    this.setState({inputText:charToRemove.join('')});
+  };
   render() {
-    let dynamicPersonsContent = null;
-    if (this.state.showContent) {
-      dynamicPersonsContent = (
-        <div>
-          {this.state.Persons.map((person, index) => {
-            return (
-              <Person
-                name={person.name}
-                age={person.age}
-                hobbies={person.hobbies}
-                change={event => this.nameChangeNameHandler(event, index)}
-                delete={(event)=>{this.deletePersonComponent(index)}}
-                key={person.id}
-              ></Person>
-            );
-          })}
-        </div>
-      );
-    }
+    //const charComponent=this.state.inputText.split('').map((ch, index)=>{
+    //return <Char key = {index}char={ch}></Char>
+    //});
+    const charComponent = (
+      <div>
+        {this.state.inputText.split("").map((ch, index) => {
+          return <Char click = {(event)=>this.removeChar(event,index)} key={index} char={ch}></Char>;
+        })}
+      </div>
+    );
 
     return (
-      
       <div className="App">
+        <div>Assignment-2: Dynamic Lists with Condition</div>
+        <br />
         <div>
-        <p>When rendering lists, always use key.</p>
-      </div>
-        <div>
-          <button className="ButtonStyle" onClick={this.toggleNames}>
-            {this.state.buttonTitle}
-          </button>
-          {dynamicPersonsContent}
+          <label>
+            Input: <input type="text" onChange={this.renderText} value={this.state.inputText} />
+          </label>
         </div>
+        <p>Entered Text : {this.state.inputText}</p>
+        <ValidationInput
+          inputTextLength={this.state.inputText.length}
+        ></ValidationInput>
+        {charComponent}
       </div>
     );
   }
