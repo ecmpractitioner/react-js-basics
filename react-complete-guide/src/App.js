@@ -1,54 +1,64 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import "./App.css";
-import ValidationInput from "./Components/ValidationInput/ValidationInput.js";
-import Char from "./Components/Char/Char.js";
+import Person from "./Components/Person/Person.js";
 
-class App extends Component {
-  state = {
-    inputText: ""
+const App = props => {
+  const [currentState, updatePersonState] = useState({
+    Persons: [
+      { id: "1", name: "Manju", age: "37", hobbies: "Cricket" },
+      { id: "2", name: "Praveena", age: "33", hobbies: "Cook" },
+      { id: "3", name: "Vaishnav", age: "07", hobbies: "Reading" }
+    ],
+    showContent: true,
+    buttonText: "Hide Content"
+  });
+  const buttonStyle = {
+    backgroundColor: "green",
+    color: "white",
+    font: "inherit",
+    border: "1px solid blue",
+    padding: "8px",
+    cursor: "pointer"
   };
 
-  renderText = event => {
-    let inputText = this.state.inputText;
-    inputText = event.target.value;
-
-    this.setState({ inputText: (inputText = event.target.value) });
-  };
-
-  removeChar = (event,index)=>{
-    const charToRemove =this.state.inputText.split('');
-    charToRemove.splice(index,1);
-    this.setState({inputText:charToRemove.join('')});
-  };
-  render() {
-    //const charComponent=this.state.inputText.split('').map((ch, index)=>{
-    //return <Char key = {index}char={ch}></Char>
-    //});
-    const charComponent = (
-      <div>
-        {this.state.inputText.split("").map((ch, index) => {
-          return <Char click = {(event)=>this.removeChar(event,index)} key={index} char={ch}></Char>;
-        })}
+  let persons = "";
+  if (currentState.showContent) {
+    persons = currentState.Persons.map((person, index) => (
+      <div key={person.id}>
+        <Person
+          name={person.name}
+          age={person.age}
+          hobbies={person.hobbies}
+        ></Person>
       </div>
-    );
-
-    return (
-      <div className="App">
-        <div>Assignment-2: Dynamic Lists with Condition</div>
-        <br />
-        <div>
-          <label>
-            Input: <input type="text" onChange={this.renderText} value={this.state.inputText} />
-          </label>
-        </div>
-        <p>Entered Text : {this.state.inputText}</p>
-        <ValidationInput
-          inputTextLength={this.state.inputText.length}
-        ></ValidationInput>
-        {charComponent}
-      </div>
-    );
+    ));
+    buttonStyle.backgroundColor = "red";
   }
-}
 
+  const toggleHandler = (event, index) => {
+    const showContentNow = currentState.showContent;
+    updatePersonState({
+      ...currentState,
+      showContent: !showContentNow,
+      buttonText: currentState.showContent ? "Show Content" : "Hide Content"
+    });
+  };
+  const changeStyle=[];
+  if(!currentState.showContent){
+    changeStyle.push('changeColor');
+    changeStyle.push('changeFontWeight');
+  }
+  return (
+    <div className="App">
+      <h1>Styling Components Dynamically</h1>
+      <h2 className={changeStyle.join(' ')}>The color of this text changes Dynamically</h2>
+      <div>
+        <button onClick={toggleHandler} style={buttonStyle}>
+          {currentState.buttonText}
+        </button>
+      </div>
+      <div> {persons}</div>
+    </div>
+  );
+};
 export default App;
