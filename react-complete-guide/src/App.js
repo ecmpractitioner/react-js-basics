@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import Person from "./Components/Person/Person.js";
+import Radium from 'radium';
 
 const App = props => {
   const [currentState, updatePersonState] = useState({
@@ -18,7 +19,11 @@ const App = props => {
     font: "inherit",
     border: "1px solid blue",
     padding: "8px",
-    cursor: "pointer"
+    cursor: "pointer",
+    ':hover':{
+      backgroundColor:'lightGreen',
+      color:"black"
+    }
   };
 
   let persons = "";
@@ -33,6 +38,10 @@ const App = props => {
       </div>
     ));
     buttonStyle.backgroundColor = "red";
+    buttonStyle[':hover']={
+      backgroundColor:'salmon',
+      color:'black'
+    }
   }
 
   const toggleHandler = (event, index) => {
@@ -61,4 +70,4 @@ const App = props => {
     </div>
   );
 };
-export default App;
+export default Radium(App);
